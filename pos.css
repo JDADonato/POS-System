@@ -236,6 +236,17 @@ button[onclick="exportToExcel()"] {
   animation: modalEntrance 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+@keyframes modalEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .sales-content,
 .stock-content {
   background: var(--surface);
@@ -247,8 +258,32 @@ button[onclick="exportToExcel()"] {
   max-height: 85vh;
   overflow-y: auto;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 107, 53, 0.1);
+  position: relative;
 }
 
+.sales-header,
+.stock-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 1;
+}
+
+.sales-header h3,
+.stock-header h3 {
+  color: var(--primary);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
 .close-btn {
   background: var(--error);
   color: white;
