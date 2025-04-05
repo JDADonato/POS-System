@@ -1,3 +1,7 @@
+// FOR INITIAL DEPLOYMENT ONLY - Clear existing data
+localStorage.removeItem('products');
+localStorage.removeItem('transactions');
+
 let products = JSON.parse(localStorage.getItem('products')) || [
   { name: "Cheese Wrap", price: 50, stock: 10 },
   { name: "Hotdog Wrap", price: 40, stock: 10 },
