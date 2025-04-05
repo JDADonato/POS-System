@@ -15,7 +15,7 @@ body {
   font-family: "Poppins", sans-serif;
   background: var(--background);
   color: var(--text);
-  /* padding: 2rem 1rem; */
+  padding: 2rem 1rem;
   min-height: 90vh;
   max-width: 800px;
   margin: 0 auto;
