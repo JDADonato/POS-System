@@ -1,3 +1,4 @@
+// FOR INITIAL DEPLOYMENT ONLY - Clear existing data
 // localStorage.removeItem('products');
 // localStorage.removeItem('transactions');
 
@@ -51,6 +52,27 @@ function addToOrder(product) {
   updateOrderDisplay();
 }
 
+function decreaseQuantity(index) {
+  const item = currentOrder[index];
+  if(item.quantity > 1) {
+    item.quantity--;
+  } else {
+    currentOrder.splice(index, 1);
+  }
+  updateOrderDisplay();
+}
+
+function increaseQuantity(index) {
+  const item = currentOrder[index];
+  const product = products.find(p => p.name === item.name);
+  if(product.stock > item.quantity) {
+    item.quantity++;
+  } else {
+    alert(`Only ${product.stock} ${product.name} available!`);
+  }
+  updateOrderDisplay();
+}
+
 function removeItem(index) {
   currentOrder.splice(index, 1);
   updateOrderDisplay();
@@ -62,12 +84,16 @@ function updateOrderDisplay() {
   
   orderList.innerHTML = currentOrder.map((item, index) => `
     <div class="order-item">
-      <div>
-        ${item.name}
-        <span class="quantity">(x${item.quantity})</span>
-        - ₱${(item.price * item.quantity).toFixed(2)}
+      <div class="item-info">
+        <div class="item-name">${item.name}</div>
+        <div class="item-price">₱${(item.price * item.quantity).toFixed(2)}</div>
       </div>
-      <button class="delete-btn" onclick="removeItem(${index})">Delete</button>
+      <div class="quantity-controls">
+        <button class="qty-btn" onclick="decreaseQuantity(${index})">−</button>
+        <span class="quantity">${item.quantity}</span>
+        <button class="qty-btn" onclick="increaseQuantity(${index})">+</button>
+        <button class="delete-btn" onclick="removeItem(${index})"><i class='bx bx-trash'></i></button>
+      </div>
     </div>
   `).join('');
   
