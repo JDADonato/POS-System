@@ -168,20 +168,39 @@ let products = JSON.parse(localStorage.getItem('products')) || [
   }
   
   function exportToExcel() {
+    // Get all product names for headers
+    const productHeaders = products.map(p => p.name);
+    
+    // Create header row
     const wsData = [
-      ["Date", "Items", "Quantity", "Total"],
-      ...transactions.map(t => [
-        t.date,
-        t.items.map(i => i.name).join(", "),
-        t.items.reduce((sum, i) => sum + i.quantity, 0),
-        t.total
-      ])
+      ["Date", ...productHeaders, "Total"]
     ];
+  
+    // Process transactions
+    transactions.forEach(t => {
+      const row = [t.date];
+      
+      // Create quantity map {productName: quantity}
+      const quantityMap = {};
+      t.items.forEach(item => {
+        quantityMap[item.name] = item.quantity;
+      });
+  
+      // Fill quantities for each product
+      products.forEach(product => {
+        row.push(quantityMap[product.name] || 0);
+      });
+  
+      // Add total
+      row.push(`₱${t.total.toFixed(2)}`);
+  
+      wsData.push(row);
+    });
+  
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.aoa_to_sheet(wsData);
-    XLSX.utils.book_append_sheet(wb, ws, "Sales");
-    XLSX.writeFile(wb, "Sales_Report.xlsx");
-  }
-  
+    XLSX.utils.book_append_sheet(wb, ws, "Transactions");
+    XLSX.writeFile(wb, "ItsAWrap_Sales.xlsx");
+  }  
   // Initialize
   createProductButtons();
