@@ -4,57 +4,69 @@
   <title>It's a Wrap! POS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
-  <link rel="icon" type="image/png" href="WRAP OFFICIAL LOGOS.png"> 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="icon" type="image/png" href="WRAP OFFICIAL LOGOS.png">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="pos.css">
 </head>
 <body>
+  <!-- <h2>It's a Wrap! POS</h2> -->
 
-    <div id="products"></div>
-  
-    <div id="orderList"></div>
-    <h3>Total: ₱<span id="total">0.00</span></h3>
+  <div id="products"></div>
 
-    <div class="payment-section">
-        <div class="payment-input">
-          <input type="number" id="amountGiven" placeholder="Amount Received ₱" step="0.01">
-          <button onclick="calculateChange()">Calculate Change</button>
-        </div>
-        <div id="changeDisplay">
-          Change Due: ₱<span id="changeAmount">0.00</span>
-        </div>
-      </div>
-  
-    <div class="controls">
-      <button onclick="checkout()"><i class='bx bxs-credit-card'></i>Checkout</button>
-      <button onclick="openStockModal()"><i class='bx bx-package'></i>Manage Stock</button>
-      <button onclick="clearAll()"><i class='bx bx-folder-minus'></i>Clear Order</button>
-      <button onclick="showSales()"><i class='bx bx-history'></i>View Sales</button>
-      <button onclick="deleteLastTransaction()"><i class='bx bx-undo'></i>Delete Last Sale</button>
-      <button onclick="clearAllData()"><i class='bx bxs-message-alt-x'></i>Clear All Data</button>
-      <button onclick="exportToExcel()"><i class='bx bx-export'></i>Export Excel</button>
+  <div id="orderList"></div>
+  <h3>Total: ₱<span id="total">0.00</span></h3>
+
+  <div class="payment-section">
+    <div class="payment-method">
+      <label class="radio-label">
+        <input type="radio" name="payment" value="cash" checked>
+        <i class='bx bx-money'></i> Cash
+      </label>
+      <label class="radio-label">
+        <input type="radio" name="payment" value="gcash">
+        <i class='bx bx-mobile'></i> GCash
+      </label>
     </div>
-
-    <!-- Modals -->
-    <div class="sales-modal" id="salesModal">
-      <div class="sales-content">
-        <div class="sales-header">
-          <h3>Sales History</h3>
-          <button class="close-btn" onclick="closeSalesModal()">Close</button>
-        </div>
-        <div class="sales-list" id="salesList"></div>
-      </div>
+    <div class="payment-input">
+      <input type="number" id="amountGiven" placeholder="Amount Received ₱" step="0.01">
+      <button onclick="calculateChange()">Calculate Change</button>
     </div>
-
-    <div class="stock-modal" id="stockModal">
-      <div class="stock-content">
-        <div class="stock-header">
-          <h3>Manage Inventory</h3>
-          <button class="close-btn" onclick="closeStockModal()">Close</button>
-        </div>
-        <div class="stock-list" id="stockList"></div>
-      </div>
+    <div id="changeDisplay">
+      Change Due: ₱<span id="changeAmount">0.00</span>
     </div>
+  </div>
+
+  <div class="controls">
+    <button onclick="checkout()"><i class='bx bxs-credit-card'></i>Checkout</button>
+    <button onclick="clearAll()"><i class='bx bx-folder-minus'></i>Clear Order</button>
+    <button onclick="showSales()"><i class='bx bx-history'></i>View Sales</button>
+    <button onclick="openStockModal()"><i class='bx bx-package'></i>Manage Stock</button>
+    <button onclick="deleteLastTransaction()"><i class='bx bx-undo'></i>Delete Last Sale</button>
+    <button onclick="clearAllData()"><i class='bx bxs-message-alt-x'></i>Clear All Data</button>
+    <button onclick="exportToExcel()"><i class='bx bx-export'></i>Export Excel</button>
+  </div>
+
+  <!-- Modals -->
+  <div class="sales-modal" id="salesModal">
+    <div class="sales-content">
+      <div class="sales-header">
+        <h3>Sales History</h3>
+        <button class="close-btn" onclick="closeSalesModal()">Close</button>
+      </div>
+      <div class="sales-list" id="salesList"></div>
+    </div>
+  </div>
+
+  <div class="stock-modal" id="stockModal">
+    <div class="stock-content">
+      <div class="stock-header">
+        <h3>Manage Inventory</h3>
+        <button class="close-btn" onclick="closeStockModal()">Close</button>
+      </div>
+      <div class="stock-list" id="stockList"></div>
+    </div>
+  </div>
 
   <script src="pos.js"></script>
 </body>
