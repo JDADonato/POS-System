@@ -1,6 +1,19 @@
-// FOR INITIAL DEPLOYMENT ONLY - Clear existing data
-// localStorage.removeItem('products');
-// localStorage.removeItem('transactions');
+const colorVariations = [
+  { bg: 'rgba(255, 235, 59, 0.2)', border: '#FFEB3B' },  // Yellow
+  { bg: 'rgba(244, 67, 54, 0.2)', border: '#F44336' },   // Red
+  { bg: 'rgba(143, 0, 255, 0.2)', border: '#8B00FF' },   // Purple
+  { bg: 'rgba(0, 128, 0, 0.2)', border: '#008000' },   // Green
+  { bg: 'rgba(0, 191, 255, 0.2)', border: '#00BFFF' },  // Light Blue
+  { bg: 'rgba(255, 0, 127, 0.2)', border: '#FF007F' },  // Pink
+  { bg: 'rgba(0, 0, 255, 0.2)', border: '#0000FF' },   // Blue
+  { bg: 'rgba(255, 20, 147, 0.2)', border: '#FF1493' }, // Deep Pink
+  { bg: 'rgba(255, 228, 181, 0.2)', border: '#FFE4B5' }, // Moccasin
+  { bg: 'rgba(240, 230, 140, 0.2)', border: '#F0E68C' }, // Khaki
+  { bg: 'rgba(240, 128, 128, 0.2)', border: '#F08080' }, // Light Coral
+  { bg: 'rgba(255, 228, 225, 0.2)', border: '#FFE4E1' }, // Misty Rose
+  { bg: 'rgba(240, 248, 255, 0.2)', border: '#F0F8FF' }, // Alice Blue
+  { bg: 'rgba(255, 239, 213, 0.2)', border: '#FFEFDB' }, // Papaya Whip
+];
 
 let products = JSON.parse(localStorage.getItem('products')) || [
   { name: "Cheese Wrap", price: 50, stock: 10 },
@@ -28,11 +41,14 @@ async function confirmAction(message) {
 function createProductButtons() {
   const container = document.getElementById('products');
   container.innerHTML = '';
-  products.forEach(product => {
+  products.forEach((product, index) => {
     const btn = document.createElement('button');
+    const colors = colorVariations[index % colorVariations.length];
     btn.className = 'product-btn';
+    btn.style.backgroundColor = colors.bg;
+    btn.style.borderColor = colors.border;
     btn.innerHTML = `
-      ${product.name}
+      <div class="product-name">${product.name}</div>
       <span class="price">₱${product.price}</span>
       <span class="stock">Stock: ${product.stock}</span>
     `;
@@ -47,8 +63,18 @@ function addToOrder(product) {
   if (existing) {
     existing.quantity++;
   } else {
-    currentOrder.push({ ...product, quantity: 1 });
+    const productIndex = products.findIndex(p => p.name === product.name);
+    currentOrder.push({ 
+      ...product, 
+      quantity: 1,
+      colorIndex: productIndex % colorVariations.length
+    });
   }
+  updateOrderDisplay();
+}
+
+function removeItem(index) {
+  currentOrder.splice(index, 1);
   updateOrderDisplay();
 }
 
@@ -73,17 +99,14 @@ function increaseQuantity(index) {
   updateOrderDisplay();
 }
 
-function removeItem(index) {
-  currentOrder.splice(index, 1);
-  updateOrderDisplay();
-}
-
 function updateOrderDisplay() {
   const orderList = document.getElementById('orderList');
   const total = currentOrder.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   
-  orderList.innerHTML = currentOrder.map((item, index) => `
-    <div class="order-item">
+  orderList.innerHTML = currentOrder.map((item, index) => {
+    const colors = colorVariations[item.colorIndex];
+    return `
+    <div class="order-item" style="background:${colors.bg};border-color:${colors.border}">
       <div class="item-info">
         <div class="item-name">${item.name}</div>
         <div class="item-price">₱${(item.price * item.quantity).toFixed(2)}</div>
@@ -95,21 +118,18 @@ function updateOrderDisplay() {
         <button class="delete-btn" onclick="removeItem(${index})"><i class='bx bx-trash'></i></button>
       </div>
     </div>
-  `).join('');
-  
+    `;
+  }).join('');
   document.getElementById('total').textContent = total.toFixed(2);
 }
 
 async function checkout() {
   if (currentOrder.length === 0) return alert("No items in order!");
-  
   const outOfStock = currentOrder.some(item => {
     const product = products.find(p => p.name === item.name);
     return product.stock < item.quantity;
   });
-  
   if (outOfStock) return alert("Not enough stock for some items!");
-
   const total = currentOrder.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   if (!await confirmAction(`Confirm checkout for ₱${total.toFixed(2)}?`)) return;
 
@@ -119,7 +139,6 @@ async function checkout() {
   });
 
   const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
-  
   transactions.push({
     date: new Date().toLocaleString(),
     items: currentOrder.map(item => ({
@@ -133,7 +152,6 @@ async function checkout() {
 
   localStorage.setItem('transactions', JSON.stringify(transactions));
   localStorage.setItem('products', JSON.stringify(products));
-  
   currentOrder = [];
   updateOrderDisplay();
   document.getElementById('amountGiven').value = '';
@@ -145,12 +163,10 @@ async function checkout() {
 function calculateChange() {
   const total = parseFloat(document.getElementById('total').textContent);
   const amountGiven = parseFloat(document.getElementById('amountGiven').value);
-  
   if (!amountGiven || amountGiven < total) {
     alert("Invalid amount entered!");
     return;
   }
-  
   document.getElementById('changeAmount').textContent = (amountGiven - total).toFixed(2);
 }
 
@@ -171,7 +187,6 @@ function openStockModal() {
 async function updateStock(productName) {
   const newStock = parseInt(document.getElementById(`stock-${productName}`).value);
   if (!await confirmAction(`Set ${productName} stock to ${newStock}?`)) return;
-  
   const product = products.find(p => p.name === productName);
   product.stock = newStock;
   localStorage.setItem('products', JSON.stringify(products));
@@ -219,28 +234,23 @@ async function clearAllData() {
 
 async function exportToExcel() {
   if (!await confirmAction("Export all transactions to Excel?")) return;
-  
   const productHeaders = products.map(p => p.name);
   const wsData = [
     ["Date", ...productHeaders, "Total", "Payment Method"]
   ];
-
   transactions.forEach(t => {
     const row = [t.date];
     const quantityMap = {};
     t.items.forEach(item => {
       quantityMap[item.name] = item.quantity;
     });
-
     products.forEach(product => {
       row.push(quantityMap[product.name] || 0);
     });
-
     row.push(`₱${t.total.toFixed(2)}`);
     row.push(t.paymentMethod.toUpperCase());
     wsData.push(row);
   });
-
   const wb = XLSX.utils.book_new();
   const ws = XLSX.utils.aoa_to_sheet(wsData);
   XLSX.utils.book_append_sheet(wb, ws, "Transactions");
@@ -249,3 +259,4 @@ async function exportToExcel() {
 }
 
 createProductButtons();
+
