@@ -1,16 +1,15 @@
 :root {
-  --primary: #6366f1;
-  --secondary: #5ac97a;
-  --accent: #8b5cf6;
-  --background: #1a1a1a;
-  --surface: #2d2d2d;
-  --text: #f8fafc;
-  --error: #ef4444;
-  --success: #5ac97a;
-  --warning: #f59e0b;
+  --primary: #FF6B35;
+  --secondary: #FF3D00;
+  --accent: #FF9000;
+  --background: #1A1A1A;
+  --surface: #2D2D2D;
+  --text: #F5F5F5;
+  --error: #FF4754;
+  --success: #4CAF50;
+  --warning: #FFA726;
 }
 
-/* Improved Body Styling */
 body {
   font-family: "Poppins", sans-serif;
   background: var(--background);
@@ -22,13 +21,12 @@ body {
   line-height: 1.6;
 }
 
-/* Enhanced Header */
-/* h2 {
+h2 {
   text-align: center;
   font-size: 2.8rem;
   margin: 1rem 0;
   padding: 1.5rem;
-  background: linear-gradient(45deg, var(--warning), var(--error));
+  background: linear-gradient(45deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -45,10 +43,8 @@ h2::after {
   transform: translateX(-50%);
   width: 90%;
   height: 3px;
-  background: linear-gradient(90deg, transparent, var(--warning), transparent);
-} */
-
-/* Modern Product Cards */
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+}
 
 #products {
   display: grid;
@@ -61,18 +57,9 @@ h2::after {
   width: 100%;
   min-height: 120px;
   padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.product-btn {
-  background: var(--surface);
-  border: none;
+  background: rgba(255, 107, 53, 0.15);
+  border: 1px solid rgba(255, 107, 53, 0.2);
   border-radius: 16px;
-  padding: 1.5rem;
   color: var(--text);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -86,7 +73,7 @@ h2::after {
 
 .product-btn:hover:not(:disabled) {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(100, 100, 255, 0.2);
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.2);
 }
 
 .product-btn::before {
@@ -99,7 +86,7 @@ h2::after {
   background: linear-gradient(
     120deg,
     rgba(255, 255, 255, 0) 20%,
-    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 107, 53, 0.1) 50%,
     rgba(255, 255, 255, 0) 80%
   );
   transition: all 0.6s ease;
@@ -109,25 +96,75 @@ h2::after {
   left: 100%;
 }
 
-/* Elegant Order Items */
 .order-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.5rem;
+  padding: 1rem;
   margin: 0.75rem 0;
   background: rgba(255, 255, 255, 0.03);
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: transform 0.2s ease;
+  border: 1px solid rgba(255, 107, 53, 0.1);
 }
 
 .order-item:hover {
-  transform: translateX(5px);
+  transform: translateY(1px);
   background: rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
 }
 
-/* Sophisticated Controls */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.qty-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.qty-btn:hover {
+  background: var(--secondary);
+}
+
+.delete-btn {
+  background: transparent;
+  color: var(--error);
+  border: none;
+  padding: 0.5rem;
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+.item-info {
+  flex: 1;
+  margin-right: 1rem;
+}
+
+.item-name {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.item-price {
+  color: var(--secondary);
+  font-size: 0.9rem;
+}
+
+.quantity {
+  min-width: 30px;
+  text-align: center;
+  font-weight: 700;
+}
+
 .controls {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -163,7 +200,7 @@ h2::after {
   background: linear-gradient(
     45deg,
     transparent,
-    rgba(255, 255, 255, 0.05),
+    rgba(255, 107, 53, 0.1),
     transparent
   );
   opacity: 0;
@@ -178,18 +215,19 @@ h2::after {
   font-size: 1.2em;
 }
 
-/* Enhanced Payment Section */
 .payment-section {
-  background: var(--surface);
+  background: rgba(45, 45, 45, 0.9);
   padding: 1.5rem;
   border-radius: 16px;
   margin: 2rem 0;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 107, 53, 0.1);
 }
 
-.payment-section button{
-    border-radius: 10px;
+.payment-section button {
+  border-radius: 10px;
 }
+
 .payment-input {
   display: flex;
   gap: 1rem;
@@ -212,7 +250,6 @@ h2::after {
   box-shadow: 0 0 0 2px var(--primary);
 }
 
-/* Improved Modal Styling */
 .sales-modal,
 .stock-modal {
   display: none;
@@ -249,7 +286,7 @@ h2::after {
   max-height: 85vh;
   overflow-y: auto;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 107, 53, 0.1);
   position: relative;
 }
 
@@ -304,7 +341,7 @@ h2::after {
   padding: 1.5rem;
   margin: 1rem 0;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 107, 53, 0.1);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -349,7 +386,6 @@ h2::after {
   text-align: right;
 }
 
-/* Stock Modal Specific Styles */
 .stock-item {
   background: rgba(255, 255, 255, 0.03);
   padding: 1.5rem;
@@ -359,6 +395,7 @@ h2::after {
   justify-content: space-between;
   align-items: center;
   transition: all 0.3s ease;
+  border: 1px solid rgba(255, 107, 53, 0.1);
 }
 
 .stock-item:hover {
@@ -386,7 +423,7 @@ h2::after {
   width: 100px;
   padding: 0.8rem;
   border-radius: 10px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 107, 53, 0.2);
   background: rgba(0, 0, 0, 0.3);
   color: var(--text);
   font-weight: 600;
@@ -396,7 +433,7 @@ h2::after {
 
 .stock-controls input:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
 }
 
 .stock-controls button {
@@ -410,11 +447,10 @@ h2::after {
 }
 
 .stock-controls button:hover {
-  background: var(--accent);
+  background: var(--secondary);
   transform: translateY(-1px);
 }
 
-/* Custom Scrollbar */
 .sales-content::-webkit-scrollbar,
 .stock-content::-webkit-scrollbar {
   width: 8px;
@@ -454,6 +490,7 @@ h2::after {
     width: 70%;
   }
 }
+
 @keyframes modalFade {
   from {
     opacity: 0;
@@ -463,36 +500,6 @@ h2::after {
   }
 }
 
-.sales-content,
-.stock-content {
-  background: var(--surface);
-  max-width: 600px;
-  border-radius: 24px;
-  padding: 2rem;
-  margin: 2rem auto;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Improved Stock Items */
-.stock-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.25rem;
-  margin: 1rem 0;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 12px;
-  transition: transform 0.2s ease;
-}
-
-.stock-item:hover {
-  transform: translateX(5px);
-}
-
-/* Animated Buttons */
 button {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
@@ -501,17 +508,15 @@ button:active {
   transform: scale(0.96);
 }
 
-/* Gradient Highlights */
 button[onclick="checkout()"] {
-  background: linear-gradient(135deg, var(--warning), var(--error));
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: white;
 }
 
 button[onclick="exportToExcel()"] {
-  background: linear-gradient(135deg, var(--secondary), #4caf50);
+  background: linear-gradient(135deg, var(--accent), var(--secondary));
 }
 
-/* Status Badges */
 .stock .low-stock {
   color: var(--warning);
   animation: pulse 1.5s infinite;
@@ -529,7 +534,6 @@ button[onclick="exportToExcel()"] {
   }
 }
 
-/* Better Text Hierarchy */
 .price {
   font-size: 1rem;
   font-weight: bold;
@@ -561,27 +565,27 @@ button[onclick="exportToExcel()"] {
 }
 
 .payment-method {
-    display: flex;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .radio-label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.8rem 1.2rem;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.05);
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .radio-label:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-  
-  .radio-label input[type="radio"] {
-    accent-color: var(--primary);
-    margin: 0;
-  }
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  background: rgba(255, 107, 53, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.radio-label:hover {
+  background: rgba(255, 107, 53, 0.2);
+}
+
+.radio-label input[type="radio"] {
+  accent-color: var(--primary);
+  margin: 0;
+}
