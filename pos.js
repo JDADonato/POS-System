@@ -1,4 +1,3 @@
-// FOR INITIAL DEPLOYMENT ONLY - Clear existing data
 localStorage.removeItem('products');
 localStorage.removeItem('transactions');
 
